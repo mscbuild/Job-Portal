@@ -35,13 +35,13 @@ job_portal/
 │   └── style.css
 ~~~
 
-# 🔧 1. app.py
+## 🔧 1. app.py
 
-# 📄 2. models.py
+## 📄 2. models.py
 
-# 🖼️ HTML-templates
+## 🖼️ HTML-templates
 
-# ▶️ Installation and launch
+## ▶️ Installation and launch
 ~~~bash
 # Install dependencies
 pip install flask flask_sqlalchemy werkzeug
