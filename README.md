@@ -49,3 +49,7 @@ pip install flask flask_sqlalchemy werkzeug
 # Start the server
 python app.py
 ~~~
+# 📄 License
+
+> MIT License
+ 
