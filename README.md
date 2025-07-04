@@ -22,6 +22,7 @@ A full-fledged mini-system in Python/Flask with basic functionality:
 ~~~bash
 job_portal/
 │
+├── resumes/  
 ├── app.py
 ├── models.py
 ├── database.db  ←created automatically
