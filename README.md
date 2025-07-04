@@ -3,7 +3,9 @@
 A full-fledged mini-system in Python/Flask with basic functionality:
 
 ✅ Registration and login for employees and employers
+
 ✅ Employers can post vacancies
+
 ✅ Employees can view vacancies and apply
 
 ## 📁 Project structure
