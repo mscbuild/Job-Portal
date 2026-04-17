@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h3 class="mb-3">Worker Dashboard</h3>
+
+<form method="GET" class="row g-2 mb-3">
+
+    <div class="col">
+        <input name="q" class="form-control" placeholder="Search jobs">
+    </div>
+
+    <div class="col">
+        <input name="city" class="form-control" placeholder="City">
+    </div>
+
+    <div class="col">
+        <select name="sort" class="form-select">
+            <option value="">Sort</option>
+            <option value="salary_desc">💰 High salary</option>
+            <option value="salary_asc">💰 Low salary</option>
+            <option value="newest">🆕 Newest</option>
+        </select>
+    </div>
+
+    <div class="col">
+        <button class="btn btn-primary">Filter</button>
+    </div>
+
+</form>
+
+{% for job in jobs %}
+<div class="card mb-3 shadow-sm p-3">
+
+    <h5>{{ job.title }}</h5>
+    <p class="text-muted">{{ job.description }}</p>
+
+    <div class="d-flex gap-2">
+        <span class="badge bg-success">💰 {{ job.salary }}</span>
+        <span class="badge bg-info">{{ job.city }}</span>
+        <span class="badge bg-secondary">{{ job.category }}</span>
+    </div>
+
+    <div class="mt-2">
+        <a href="/apply/{{ job.id }}" class="btn btn-sm btn-primary">Apply</a>
+        <a href="/favorite/{{ job.id }}" class="btn btn-sm btn-outline-warning">⭐</a>
+    </div>
+
+</div>
+{% endfor %}
+
+{% endblock %}
