@@ -7,10 +7,11 @@
 </head>
 <body class="container mt-5">
     <h2>Entrance</h2>
-    <form method="POST">
-        <input name="username" placeholder="Username" class="form-control mb-3" required />
-        <input type="password" name="password" placeholder="Password" class="form-control mb-3" required />
-        <button class="btn btn-success">Login</button>
-    </form>
+   <form method="POST">
+    {{ form.hidden_tag() }}
+    {{ form.username() }}
+    {{ form.password() }}
+    <button type="submit">Login</button>
+</form>
 </body>
 </html>
