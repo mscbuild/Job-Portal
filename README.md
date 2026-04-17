@@ -24,7 +24,18 @@ A full-fledged system in Python/Flask with basic functionality:
 - 📥 Resume upload + download
 - 🔔 Notifications system
 - 🎨 Bootstrap UI
-- 🧪 Unit tests (pytest) 
+- 🧪 Unit tests (pytest)
+
+## 🧠 Tech Stack
+
+- Flask
+- SQLite
+- SQLAlchemy
+- Flask-Login
+- Flask-WTF
+- Bootstrap 5
+
+---
 
 ## 📁 Project structure
 
@@ -66,13 +77,39 @@ job-portal/
 ## 🖼️ HTML-templates
 
 ## ▶️ Installation and launch
-~~~bash
-# Install dependencies
-pip install flask flask_sqlalchemy werkzeug
+---
 
-# Start the server
-python app.py
+## 📦 Installation
+
+```bash
+git clone https://github.com/mscbuild/Job-Portal
+cd Job-Portal
+
+python -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
+
+pip install -r requirements.txt
 ~~~
+
+## ▶ Run
+```bash
+python app.py
+```
+## Open:
+```bash
+http://127.0.0.1:5000
+```
+## 🧪 Tests
+```bash
+pytest
+```
+## 🔐 Security
+
+- CSRF protection enabled
+- Password hashing (Werkzeug)
+- File validation for uploads
+- XSS protection via Bleach
+
 # 📄 License
 
 > MIT License
