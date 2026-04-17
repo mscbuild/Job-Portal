@@ -1,194 +1,220 @@
 import os
-from flask import Flask, render_template, request, redirect, session
+import secrets
+import bleach
+import magic
+
+from flask import Flask, render_template, redirect, request
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
+
+from flask_login import LoginManager, login_user, login_required, logout_user, current_user
+from flask_wtf import CSRFProtect
+
 from models import db, User, Job, Application
+from forms import RegisterForm, LoginForm, JobForm, ResumeForm
 from sqlalchemy import or_
 
+# ---------------- CONFIG ----------------
+
 app = Flask(__name__)
-app.secret_key = 'your_secret_key_here'
+app.secret_key = secrets.token_hex(32)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['UPLOAD_FOLDER'] = 'resumes'
+app.config['MAX_CONTENT_LENGTH'] = 2 * 1024 * 1024
 
-UPLOAD_FOLDER = 'resumes'
-ALLOWED_EXTENSIONS = {'pdf', 'docx'}
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config.update(
+    SESSION_COOKIE_HTTPONLY=True,
+    SESSION_COOKIE_SAMESITE='Lax'
+)
 
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+os.makedirs('resumes', exist_ok=True)
 
-# Initialize DB
+# ---------------- EXTENSIONS ----------------
+
 db.init_app(app)
+csrf = CSRFProtect(app)
 
-# ✅ Flask 3.x compatible table creation
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'
+
+# ---------------- DB INIT ----------------
+
 with app.app_context():
     db.create_all()
 
+# ---------------- LOGIN LOADER ----------------
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+# ---------------- HELPERS ----------------
+
+ALLOWED_EXTENSIONS = {'pdf', 'docx'}
 
 def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+    return '.' in filename and filename.rsplit('.',1)[1].lower() in ALLOWED_EXTENSIONS
 
+# ---------------- ROUTES ----------------
 
 @app.route('/')
 def index():
     return render_template('index.html')
 
 
-@app.route('/register', methods=['GET', 'POST'])
+@app.route('/register', methods=['GET','POST'])
 def register():
-    if request.method == 'POST':
-        role = request.form['role']
-        username = request.form['username']
-        password = generate_password_hash(request.form['password'])
+    form = RegisterForm()
 
-        if User.query.filter_by(username=username).first():
-            return "The user already exists"
+    if form.validate_on_submit():
+        if User.query.filter_by(username=form.username.data).first():
+            return "User exists"
 
-        user = User(username=username, password=password, role=role)
+        user = User(
+            username=form.username.data,
+            password=generate_password_hash(form.password.data),
+            role=form.role.data
+        )
+
         db.session.add(user)
         db.session.commit()
 
         return redirect('/login')
 
-    return render_template('register.html')
+    return render_template('register.html', form=form)
 
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login', methods=['GET','POST'])
 def login():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
+    form = LoginForm()
 
-        user = User.query.filter_by(username=username).first()
+    if form.validate_on_submit():
+        user = User.query.filter_by(username=form.username.data).first()
 
-        if user and check_password_hash(user.password, password):
-            session['user_id'] = user.id
-            session['role'] = user.role
+        if user and check_password_hash(user.password, form.password.data):
+            login_user(user)
             return redirect('/dashboard')
-        else:
-            return 'Incorrect data'
 
-    return render_template('login.html')
+        return "Invalid credentials"
+
+    return render_template('login.html', form=form)
 
 
 @app.route('/logout')
+@login_required
 def logout():
-    session.clear()
+    logout_user()
     return redirect('/')
 
 
 @app.route('/dashboard')
+@login_required
 def dashboard():
-    if 'user_id' not in session:
-        return redirect('/login')
-
-    if session['role'] == 'employer':
-        jobs = Job.query.filter_by(employer_id=session['user_id']).all()
+    if current_user.role == 'employer':
+        jobs = Job.query.filter_by(employer_id=current_user.id).all()
         return render_template('dashboard_employer.html', jobs=jobs)
 
+    query = request.args.get('q')
+
+    if query:
+        jobs = Job.query.filter(
+            or_(
+                Job.title.ilike(f"%{query}%"),
+                Job.description.ilike(f"%{query}%")
+            )
+        ).all()
     else:
-        query = request.args.get('q')
+        jobs = Job.query.all()
 
-        if query:
-            jobs = Job.query.filter(
-                or_(
-                    Job.title.ilike(f"%{query}%"),
-                    Job.description.ilike(f"%{query}%")
-                )
-            ).all()
-        else:
-            jobs = Job.query.all()
-
-        return render_template('dashboard_worker.html', jobs=jobs)
+    return render_template('dashboard_worker.html', jobs=jobs)
 
 
 @app.route('/post_job', methods=['POST'])
+@login_required
 def post_job():
-    if 'user_id' not in session or session['role'] != 'employer':
-        return redirect('/login')
+    if current_user.role != 'employer':
+        return "Access denied"
 
-    title = request.form['title']
-    description = request.form['description']
+    form = JobForm()
 
-    job = Job(
-        title=title,
-        description=description,
-        employer_id=session['user_id']
-    )
+    if form.validate_on_submit():
+        clean_desc = bleach.clean(form.description.data)
 
-    db.session.add(job)
-    db.session.commit()
+        job = Job(
+            title=form.title.data,
+            description=clean_desc,
+            employer_id=current_user.id
+        )
+
+        db.session.add(job)
+        db.session.commit()
 
     return redirect('/dashboard')
 
 
 @app.route('/apply/<int:job_id>')
+@login_required
 def apply(job_id):
-    if 'user_id' not in session or session['role'] != 'worker':
-        return redirect('/login')
+    if current_user.role != 'worker':
+        return "Access denied"
 
     existing = Application.query.filter_by(
-        worker_id=session['user_id'],
+        worker_id=current_user.id,
         job_id=job_id
     ).first()
 
     if not existing:
-        application = Application(
-            worker_id=session['user_id'],
-            job_id=job_id
-        )
-        db.session.add(application)
+        db.session.add(Application(worker_id=current_user.id, job_id=job_id))
         db.session.commit()
 
     return redirect('/dashboard')
 
 
 @app.route('/applications/<int:job_id>')
+@login_required
 def view_applications(job_id):
-    if 'user_id' not in session or session['role'] != 'employer':
-        return redirect('/login')
-
     job = Job.query.get_or_404(job_id)
 
-    if job.employer_id != session['user_id']:
-        return "Access Denied"
+    if job.employer_id != current_user.id:
+        return "Access denied"
 
-    applications = Application.query.filter_by(job_id=job_id).all()
-
-    return render_template(
-        'applications.html',
-        applications=applications,
-        job=job
-    )
+    apps = Application.query.filter_by(job_id=job_id).all()
+    return render_template('applications.html', applications=apps, job=job)
 
 
-@app.route('/upload_resume', methods=['GET', 'POST'])
+@app.route('/upload_resume', methods=['GET','POST'])
+@login_required
 def upload_resume():
-    if 'user_id' not in session or session['role'] != 'worker':
-        return redirect('/login')
+    if current_user.role != 'worker':
+        return "Access denied"
 
-    user = User.query.get(session['user_id'])
+    form = ResumeForm()
 
-    if request.method == 'POST':
-        file = request.files.get('resume')
+    if form.validate_on_submit():
+        file = form.resume.data
 
         if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            filepath = os.path.join(
-                app.config['UPLOAD_FOLDER'],
-                f"{user.id}_{filename}"
-            )
+            mime = magic.from_buffer(file.read(2048), mime=True)
+            file.seek(0)
 
-            file.save(filepath)
-            user.resume = filepath
+            if mime not in [
+                'application/pdf',
+                'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+            ]:
+                return "Invalid file"
+
+            filename = secure_filename(file.filename)
+            path = os.path.join('resumes', f"{current_user.id}_{filename}")
+
+            file.save(path)
+            current_user.resume = path
             db.session.commit()
 
             return redirect('/dashboard')
-        else:
-            return "Unsupported file format"
 
-    return render_template('upload_resume.html', user=user)
+        return "Invalid format"
 
-
-if __name__ == '__main__':
-    app.run(debug=True)
+    return render_template('upload_resume.html', form=form)
