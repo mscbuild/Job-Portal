@@ -10,31 +10,53 @@
 ![](https://img.shields.io/website?url=https%3A%2F%2Fgithub.com%2Fmscbuild)
 
 
-A full-fledged mini-system in Python/Flask with basic functionality:
+A full-fledged system in Python/Flask with basic functionality:
 
-✅ Registration and login for employees and employers
+## ✨ Features
 
-✅ Employers can post vacancies
-
-✅ Employees can view vacancies and apply
+- 🔐 Authentication (Flask-Login)
+- 🛡 CSRF protection (Flask-WTF)
+- 💼 Job posting (employers)
+- 📄 Job applications (workers)
+- 🔍 Search + filters (salary, category, city)
+- 📊 Sorting (salary, date)
+- ⭐ Favorites
+- 📥 Resume upload + download
+- 🔔 Notifications system
+- 🎨 Bootstrap UI
+- 🧪 Unit tests (pytest) 
 
 ## 📁 Project structure
 
 ~~~bash
-job_portal/
+job-portal/
 │
-├── resumes/  
 ├── app.py
+├── config.py
 ├── models.py
-├── database.db  ←created automatically
-├── templates/
-│   ├── index.html
-│   ├── login.html
-│   ├── register.html
-│   ├── dashboard_employer.html
-│   ├── dashboard_worker.html
-├── static/
-│   └── style.css
+├── forms.py
+├── extensions.py
+│
+├── requirements.txt
+├── README.md
+├── run.py
+│
+├── resumes/
+├── tests/
+│   ├── test_auth.py
+│   ├── test_jobs.py
+│   └── test_applications.py
+│
+└── templates/
+    ├── base.html
+    ├── index.html
+    ├── login.html
+    ├── register.html
+    ├── dashboard_worker.html
+    ├── dashboard_employer.html
+    ├── upload_resume.html
+    ├── applications.html
+    └── notifications.html
 ~~~
 
 ## 🔧 1. app.py
