@@ -7,10 +7,16 @@
 </head>
 <body class="container mt-5">
     <h2>Entrance</h2>
-   <form method="POST">
+  <form method="POST">
     {{ form.hidden_tag() }}
+    
+    <p>Username:</p>
     {{ form.username() }}
+    
+    <p>Password:</p>
     {{ form.password() }}
+    
+    <br><br>
     <button type="submit">Login</button>
 </form>
 </body>
