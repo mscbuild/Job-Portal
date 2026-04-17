@@ -18,6 +18,10 @@ A full-fledged mini-system in Python/Flask with basic functionality:
 
 ✅ Employees can view vacancies and apply
 
+## Screenshot
+<img width="1344" height="622" alt="Job portal" src="https://github.com/user-attachments/assets/94a27e3d-52f3-461c-bfff-6b0c0b4963a1" />
+
+
 ## 📁 Project structure
 
 ~~~bash
