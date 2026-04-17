@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h3>Applications</h3>
+
+{% for app in applications %}
+<div class="card p-3 mb-2">
+
+    <h5>Worker: {{ app.worker.username }}</h5>
+
+    <a href="/download_resume/{{ app.worker.id }}" class="btn btn-sm btn-success">
+        Download Resume
+    </a>
+
+</div>
+{% endfor %}
+
+{% endblock %}
