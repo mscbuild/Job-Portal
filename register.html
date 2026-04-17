@@ -8,13 +8,19 @@
 <body class="container mt-5">
     <h2>Registration</h2>
     <form method="POST">
-        <select name="role" class="form-select mb-3">
-            <option value="employer">Employer</option>
-            <option value="worker">Worker</option>
-        </select>
-        <input name="username" placeholder="Username" class="form-control mb-3" required />
-        <input type="password" name="password" placeholder="Password" class="form-control mb-3" required />
-        <button class="btn btn-primary">Register</button>
-    </form>
+    {{ form.hidden_tag() }}
+
+    <p>Username:</p>
+    {{ form.username() }}
+
+    <p>Password:</p>
+    {{ form.password() }}
+
+    <p>Role:</p>
+    {{ form.role() }}
+
+    <br><br>
+    <button type="submit">Register</button>
+</form>
 </body>
 </html>
