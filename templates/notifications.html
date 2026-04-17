@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h3>Notifications</h3>
+
+{% for n in notes %}
+<div class="card p-2 mb-2 {% if not n.is_read %}border-primary{% endif %}">
+
+    <p>{{ n.message }}</p>
+
+    {% if not n.is_read %}
+        <a href="/mark_read/{{ n.id }}" class="btn btn-sm btn-outline-success">
+            Mark as read
+        </a>
+    {% endif %}
+
+</div>
+{% endfor %}
+
+{% endblock %}
