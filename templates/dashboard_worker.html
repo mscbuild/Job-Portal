@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Panel</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container mt-5">
+    <h2>Vacancies</h2>
+    <ul class="list-group">
+        {% for job in jobs %}
+        <li class="list-group-item">
+            <strong>{{ job.title }}</strong><br>
+            {{ job.description }}<br>
+            <a href="/apply/{{ job.id }}" class="btn btn-sm btn-success mt-2">Reply</a>
+        </li>
+        {% endfor %}
+    </ul>
+    <a href="/logout" class="btn btn-danger mt-4">Log out</a>
+</body>
+</html>
