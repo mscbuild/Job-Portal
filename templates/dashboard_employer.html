@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h3>Your Jobs</h3>
+
+<form method="POST" action="/post_job" class="card p-3 mb-4 shadow-sm">
+    {{ csrf_token() }}
+
+    <input name="title" class="form-control mb-2" placeholder="Title">
+    <textarea name="description" class="form-control mb-2" placeholder="Description"></textarea>
+    <input name="salary" class="form-control mb-2" placeholder="Salary">
+    <input name="category" class="form-control mb-2" placeholder="Category">
+    <input name="city" class="form-control mb-2" placeholder="City">
+
+    <button class="btn btn-success">Post Job</button>
+</form>
+
+{% for job in jobs %}
+<div class="card mb-3 p-3">
+
+    <h5>{{ job.title }}</h5>
+
+    <div class="d-flex gap-2">
+        <a href="/edit_job/{{ job.id }}" class="btn btn-sm btn-warning">Edit</a>
+
+        <form method="POST" action="/delete_job/{{ job.id }}">
+            {{ csrf_token() }}
+            <button class="btn btn-sm btn-danger">Delete</button>
+        </form>
+
+        <a href="/applications/{{ job.id }}" class="btn btn-sm btn-primary">Applications</a>
+    </div>
+
+</div>
+{% endfor %}
+
+{% endblock %}
