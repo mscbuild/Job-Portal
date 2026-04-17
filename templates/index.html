@@ -1,13 +1,1725 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
-    <title>Job Portal</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JobPortal — Find Your Dream Career</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/fontsource-inter@5.0.18/index.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/fontsource-poppins@5.0.18/index.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #f8f9fc;
+            --bg-secondary: #ffffff;
+            --bg-tertiary: #f1f3f9;
+            --bg-card: #ffffff;
+            --text-primary: #1a1a2e;
+            --text-secondary: #555770;
+            --text-muted: #8888a0;
+            --accent-primary: #6c5ce7;
+            --accent-secondary: #a29bfe;
+            --accent-gradient: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 50%, #74b9ff 100%);
+            --accent-gradient-hover: linear-gradient(135deg, #5a4bd1 0%, #8b83f7 50%, #5fa8f7 100%);
+            --shadow-sm: 0 2px 8px rgba(108, 92, 231, 0.08);
+            --shadow-md: 0 8px 30px rgba(108, 92, 231, 0.12);
+            --shadow-lg: 0 20px 60px rgba(108, 92, 231, 0.15);
+            --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.06);
+            --border-color: rgba(108, 92, 231, 0.1);
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.3);
+            --hero-overlay: rgba(248, 249, 252, 0.85);
+            --navbar-bg: rgba(248, 249, 252, 0.8);
+            --stat-card-bg: rgba(108, 92, 231, 0.06);
+            --toggle-bg: #e0e0e0;
+            --toggle-circle: #ffffff;
+            --footer-bg: #1a1a2e;
+            --footer-text: #c8c8d8;
+            --input-bg: #ffffff;
+            --badge-bg: rgba(108, 92, 231, 0.1);
+            --badge-text: #6c5ce7;
+            --divider: rgba(108, 92, 231, 0.08);
+            --success-color: #00b894;
+            --warning-color: #fdcb6e;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #0f0f1a;
+            --bg-secondary: #1a1a2e;
+            --bg-tertiary: #16162a;
+            --bg-card: #1e1e35;
+            --text-primary: #e8e8f0;
+            --text-secondary: #a0a0b8;
+            --text-muted: #6868808;
+            --accent-primary: #a29bfe;
+            --accent-secondary: #6c5ce7;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 8px 30px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.5);
+            --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.3);
+            --border-color: rgba(162, 155, 254, 0.15);
+            --glass-bg: rgba(30, 30, 53, 0.7);
+            --glass-border: rgba(162, 155, 254, 0.2);
+            --hero-overlay: rgba(15, 15, 26, 0.88);
+            --navbar-bg: rgba(15, 15, 26, 0.85);
+            --stat-card-bg: rgba(162, 155, 254, 0.1);
+            --toggle-bg: #333355;
+            --toggle-circle: #a29bfe;
+            --footer-bg: #0a0a15;
+            --footer-text: #8888a0;
+            --input-bg: #1a1a2e;
+            --badge-bg: rgba(162, 155, 254, 0.15);
+            --badge-text: #a29bfe;
+            --divider: rgba(162, 155, 254, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            transition: background-color 0.5s ease, color 0.5s ease;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar-custom {
+            background: var(--navbar-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 12px 0;
+            transition: all 0.5s ease;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 800;
+            font-size: 1.6rem;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+        }
+
+        .navbar-brand i {
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-right: 6px;
+        }
+
+        .nav-link {
+            color: var(--text-secondary) !important;
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 8px 18px !important;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--accent-primary) !important;
+            background: var(--stat-card-bg);
+        }
+
+        .nav-link.active {
+            color: var(--accent-primary) !important;
+            background: var(--stat-card-bg);
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            padding: 8px 16px;
+            border-radius: 50px;
+            background: var(--stat-card-bg);
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            background: var(--badge-bg);
+            transform: scale(1.02);
+        }
+
+        .toggle-track {
+            width: 44px;
+            height: 24px;
+            background: var(--toggle-bg);
+            border-radius: 12px;
+            position: relative;
+            transition: all 0.4s ease;
+        }
+
+        .toggle-thumb {
+            width: 20px;
+            height: 20px;
+            background: var(--toggle-circle);
+            border-radius: 50%;
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+
+        [data-theme="dark"] .toggle-thumb {
+            left: 22px;
+        }
+
+        .toggle-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            user-select: none;
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero-section {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            padding-top: 80px;
+        }
+
+        .hero-bg-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+            opacity: 0.12;
+            transition: opacity 0.5s ease;
+        }
+
+        [data-theme="dark"] .hero-bg-image {
+            opacity: 0.08;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--hero-overlay);
+            z-index: 1;
+            transition: background 0.5s ease;
+        }
+
+        .hero-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: var(--accent-primary);
+            opacity: 0.1;
+            animation: floatParticle 20s infinite ease-in-out;
+        }
+
+        .particle:nth-child(1) { width: 300px; height: 300px; top: -50px; right: -80px; animation-delay: 0s; }
+        .particle:nth-child(2) { width: 200px; height: 200px; bottom: 10%; left: -50px; animation-delay: -5s; }
+        .particle:nth-child(3) { width: 150px; height: 150px; top: 40%; right: 20%; animation-delay: -10s; }
+        .particle:nth-child(4) { width: 100px; height: 100px; top: 20%; left: 30%; animation-delay: -15s; }
+
+        @keyframes floatParticle {
+            0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.1; }
+            25% { transform: translate(30px, -40px) scale(1.1); opacity: 0.15; }
+            50% { transform: translate(-20px, 20px) scale(0.95); opacity: 0.08; }
+            75% { transform: translate(15px, 30px) scale(1.05); opacity: 0.12; }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 3;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 20px;
+            background: var(--badge-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--badge-text);
+            margin-bottom: 24px;
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .hero-badge .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--success-color);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.5); }
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 24px;
+            animation: fadeInUp 0.8s ease 0.1s forwards;
+            opacity: 0;
+        }
+
+        .hero-title .gradient-text {
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 540px;
+            margin-bottom: 40px;
+            line-height: 1.7;
+            animation: fadeInUp 0.8s ease 0.2s forwards;
+            opacity: 0;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 50px;
+            animation: fadeInUp 0.8s ease 0.3s forwards;
+            opacity: 0;
+        }
+
+        .btn-hero-primary {
+            background: var(--accent-gradient);
+            color: #fff;
+            border: none;
+            padding: 14px 36px;
+            border-radius: 14px;
+            font-weight: 600;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(108, 92, 231, 0.3);
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-hero-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn-hero-primary:hover::before {
+            left: 100%;
+        }
+
+        .btn-hero-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(108, 92, 231, 0.4);
+            color: #fff;
+        }
+
+        .btn-hero-secondary {
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border: 2px solid var(--border-color);
+            padding: 14px 36px;
+            border-radius: 14px;
+            font-weight: 600;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .btn-hero-secondary:hover {
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 40px;
+            animation: fadeInUp 0.8s ease 0.4s forwards;
+            opacity: 0;
+        }
+
+        .hero-stat {
+            text-align: center;
+        }
+
+        .hero-stat-number {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .hero-stat-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .hero-image-wrapper {
+            position: relative;
+            animation: fadeInRight 1s ease 0.3s forwards;
+            opacity: 0;
+        }
+
+        .hero-image-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-image-card img {
+            width: 100%;
+            border-radius: 16px;
+            display: block;
+        }
+
+        .floating-card {
+            position: absolute;
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 14px 20px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
+            animation: float 6s infinite ease-in-out;
+            z-index: 5;
+        }
+
+        .floating-card-1 {
+            top: -10px;
+            right: -20px;
+            animation-delay: 0s;
+        }
+
+        .floating-card-2 {
+            bottom: 30px;
+            left: -30px;
+            animation-delay: -3s;
+        }
+
+        .floating-card-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            margin-bottom: 6px;
+        }
+
+        .floating-card-text {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .floating-card-sub {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInRight {
+            from { opacity: 0; transform: translateX(40px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* ===== SEARCH SECTION ===== */
+        .search-section {
+            padding: 0;
+            margin-top: -40px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .search-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-color);
+        }
+
+        .search-card .form-control,
+        .search-card .form-select {
+            background: var(--input-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 14px 18px;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .search-card .form-control:focus,
+        .search-card .form-select:focus {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 4px rgba(108, 92, 231, 0.1);
+            background: var(--input-bg);
+            color: var(--text-primary);
+        }
+
+        .search-card .form-control::placeholder {
+            color: var(--text-muted);
+        }
+
+        .search-card .btn-search {
+            background: var(--accent-gradient);
+            border: none;
+            border-radius: 12px;
+            padding: 14px 32px;
+            color: #fff;
+            font-weight: 600;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            width: 100%;
+            height: 100%;
+            min-height: 52px;
+        }
+
+        .search-card .btn-search:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(108, 92, 231, 0.35);
+        }
+
+        .search-tags {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 16px;
+        }
+
+        .search-tag {
+            padding: 6px 14px;
+            background: var(--stat-card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .search-tag:hover {
+            background: var(--badge-bg);
+            color: var(--accent-primary);
+            border-color: var(--accent-primary);
+        }
+
+        /* ===== FEATURES SECTION ===== */
+        .features-section {
+            padding: 100px 0;
+        }
+
+        .section-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 16px;
+            background: var(--badge-bg);
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--badge-text);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 60px;
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 36px 28px;
+            border: 1px solid var(--border-color);
+            transition: all 0.4s ease;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--accent-gradient);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--accent-primary);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .feature-icon.icon-1 { background: rgba(108, 92, 231, 0.1); color: #6c5ce7; }
+        .feature-icon.icon-2 { background: rgba(0, 184, 148, 0.1); color: #00b894; }
+        .feature-icon.icon-3 { background: rgba(253, 203, 110, 0.15); color: #e17055; }
+        .feature-icon.icon-4 { background: rgba(116, 185, 255, 0.1); color: #74b9ff; }
+
+        .feature-card:hover .feature-icon {
+            transform: scale(1.1) rotate(-5deg);
+        }
+
+        .feature-card h5 {
+            font-weight: 700;
+            margin-bottom: 12px;
+            font-size: 1.15rem;
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.7;
+            margin-bottom: 0;
+        }
+
+        /* ===== HOW IT WORKS ===== */
+        .how-section {
+            padding: 100px 0;
+            background: var(--bg-tertiary);
+            transition: background 0.5s ease;
+        }
+
+        .step-card {
+            text-align: center;
+            padding: 30px 20px;
+            position: relative;
+        }
+
+        .step-number {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            background: var(--accent-gradient);
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 800;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            box-shadow: 0 8px 25px rgba(108, 92, 231, 0.3);
+        }
+
+        .step-card h5 {
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .step-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            max-width: 280px;
+            margin: 0 auto;
+        }
+
+        .step-connector {
+            position: absolute;
+            top: 58px;
+            right: -50%;
+            width: 100%;
+            height: 2px;
+            background: var(--border-color);
+            z-index: 0;
+        }
+
+        .step-connector::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: -3px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent-primary);
+        }
+
+        /* ===== CATEGORIES ===== */
+        .categories-section {
+            padding: 100px 0;
+        }
+
+        .category-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .category-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--accent-primary);
+            color: inherit;
+        }
+
+        .category-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        .category-info h6 {
+            font-weight: 700;
+            margin-bottom: 4px;
+            font-size: 0.95rem;
+        }
+
+        .category-info span {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* ===== CTA SECTION ===== */
+        .cta-section {
+            padding: 100px 0;
+        }
+
+        .cta-card {
+            background: var(--accent-gradient);
+            border-radius: 28px;
+            padding: 70px 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .cta-card::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -10%;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .cta-card h2 {
+            color: #fff;
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-card p {
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 1.1rem;
+            max-width: 500px;
+            margin-bottom: 32px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-cta {
+            background: #fff;
+            color: var(--accent-primary);
+            border: none;
+            padding: 16px 40px;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+            color: var(--accent-primary);
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: var(--footer-bg);
+            padding: 60px 0 30px;
+            color: var(--footer-text);
+            transition: background 0.5s ease;
+        }
+
+        .footer-brand {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: #fff;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-brand i {
+            background: linear-gradient(135deg, #a29bfe, #74b9ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .footer-desc {
+            font-size: 0.9rem;
+            color: var(--footer-text);
+            max-width: 300px;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .footer-socials {
+            display: flex;
+            gap: 12px;
+        }
+
+        .footer-social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--footer-text);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .footer-social-link:hover {
+            background: var(--accent-primary);
+            color: #fff;
+            transform: translateY(-3px);
+        }
+
+        .footer h6 {
+            color: #fff;
+            font-weight: 700;
+            margin-bottom: 20px;
+            font-size: 1rem;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: var(--footer-text);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-secondary);
+            transform: translateX(4px);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding-top: 24px;
+            margin-top: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .footer-bottom p {
+            font-size: 0.85rem;
+            color: var(--footer-text);
+            margin: 0;
+        }
+
+        .footer-bottom-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .footer-bottom-links a {
+            color: var(--footer-text);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-bottom-links a:hover {
+            color: var(--accent-secondary);
+        }
+
+        /* ===== SCROLL ANIMATIONS ===== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 992px) {
+            .hero-title { font-size: 2.5rem; }
+            .hero-stats { gap: 24px; }
+            .hero-image-wrapper { margin-top: 40px; }
+            .floating-card-1 { right: 0; }
+            .floating-card-2 { left: 0; }
+            .step-connector { display: none; }
+            .cta-card { padding: 50px 30px; }
+            .cta-card h2 { font-size: 2rem; }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title { font-size: 2rem; }
+            .hero-subtitle { font-size: 1rem; }
+            .hero-actions { flex-direction: column; }
+            .hero-actions a { text-align: center; justify-content: center; }
+            .hero-stats { gap: 16px; }
+            .hero-stat-number { font-size: 1.5rem; }
+            .section-title { font-size: 2rem; }
+            .search-card { padding: 20px; }
+        }
+
+        /* ===== SCROLL TO TOP ===== */
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            background: var(--accent-gradient);
+            color: #fff;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            z-index: 999;
+            box-shadow: 0 8px 25px rgba(108, 92, 231, 0.3);
+        }
+
+        .scroll-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .scroll-top:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(108, 92, 231, 0.4);
+        }
+
+        /* ===== PRELOADER ===== */
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .preloader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .preloader-spinner {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            background: var(--accent-gradient);
+            animation: spin 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg) scale(1); border-radius: 14px; }
+            50% { transform: rotate(180deg) scale(0.8); border-radius: 50%; }
+            100% { transform: rotate(360deg) scale(1); border-radius: 14px; }
+        }
+
+        /* ===== NAVBAR SCROLL EFFECT ===== */
+        .navbar-custom.scrolled {
+            box-shadow: var(--shadow-sm);
+        }
+    </style>
 </head>
-<body class="container mt-5">
-    <h2>Welcome to the job portal</h2>
-    <a class="btn btn-primary me-2" href="/register">Registration</a>
-    <a class="btn btn-success" href="/login">Entrance</a>
+<body>
+
+    <!-- Preloader -->
+    <div class="preloader" id="preloader">
+        <div class="preloader-spinner"></div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-custom fixed-top" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="bi bi-briefcase-fill"></i>JobPortal
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <i class="bi bi-list" style="font-size: 1.5rem; color: var(--text-primary);"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#how">How It Works</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#categories">Categories</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                </ul>
+                <div class="d-flex align-items-center gap-3">
+                    <div class="theme-toggle" id="themeToggle" title="Toggle theme">
+                        <div class="toggle-track">
+                            <div class="toggle-thumb">
+                                <i class="bi bi-sun-fill" id="toggleIcon" style="color: #fdcb6e; font-size: 10px;"></i>
+                            </div>
+                        </div>
+                        <span class="toggle-label" id="toggleLabel">Light</span>
+                    </div>
+                    <a href="/register" class="btn btn-hero-primary btn-sm" style="padding: 10px 24px; font-size: 0.9rem; border-radius: 12px;">
+                        Get Started <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <img src="https://image.qwenlm.ai/public_source/e379effe-60c2-42d5-9eb7-bfba26d93efd/123b6c451-60f1-4b9a-9c93-8d4e49dcedc0.png" alt="Office" class="hero-bg-image">
+        <div class="hero-overlay"></div>
+        <div class="hero-particles">
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+        </div>
+        <div class="container hero-content">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <div class="hero-badge">
+                        <span class="pulse-dot"></span>
+                        10,000+ new jobs this week
+                    </div>
+                    <h1 class="hero-title">
+                        Discover Your<br>
+                        <span class="gradient-text">Dream Career</span><br>
+                        With Us
+                    </h1>
+                    <p class="hero-subtitle">
+                        Connect with top employers worldwide. Your next opportunity is just one click away — personalized, fast, and reliable.
+                    </p>
+                    <div class="hero-actions">
+                        <a href="/register" class="btn-hero-primary">
+                            <i class="bi bi-rocket-takeoff"></i> Register Now
+                        </a>
+                        <a href="/login" class="btn-hero-secondary">
+                            <i class="bi bi-box-arrow-in-right"></i> Sign In
+                        </a>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="hero-stat">
+                            <div class="hero-stat-number" data-count="50000">0</div>
+                            <div class="hero-stat-label">Active Jobs</div>
+                        </div>
+                        <div class="hero-stat">
+                            <div class="hero-stat-number" data-count="12000">0</div>
+                            <div class="hero-stat-label">Companies</div>
+                        </div>
+                        <div class="hero-stat">
+                            <div class="hero-stat-number" data-count="98">0</div>
+                            <div class="hero-stat-label">% Success Rate</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="hero-image-wrapper">
+                        <div class="hero-image-card">
+                            <img src="https://image.qwenlm.ai/public_source/e379effe-60c2-42d5-9eb7-bfba26d93efd/16527734a-fc46-4204-bdba-37f775744b11.png" alt="Abstract Pattern">
+                        </div>
+                        <div class="floating-card floating-card-1">
+                            <div class="floating-card-icon" style="background: rgba(0, 184, 148, 0.1); color: #00b894;">
+                                <i class="bi bi-check-circle-fill"></i>
+                            </div>
+                            <div class="floating-card-text">Application Sent!</div>
+                            <div class="floating-card-sub">Frontend Developer</div>
+                        </div>
+                        <div class="floating-card floating-card-2">
+                            <div class="floating-card-icon" style="background: rgba(253, 203, 110, 0.15); color: #e17055;">
+                                <i class="bi bi-fire"></i>
+                            </div>
+                            <div class="floating-card-text">+247 New Jobs</div>
+                            <div class="floating-card-sub">This week</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search Section -->
+    <section class="search-section">
+        <div class="container">
+            <div class="search-card reveal">
+                <div class="row g-3 align-items-end">
+                    <div class="col-lg-4 col-md-6">
+                        <label class="form-label fw-semibold mb-2" style="color: var(--text-primary); font-size: 0.9rem;">
+                            <i class="bi bi-search me-1" style="color: var(--accent-primary);"></i> Job Title or Keyword
+                        </label>
+                        <input type="text" class="form-control" placeholder="e.g. Frontend Developer">
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <label class="form-label fw-semibold mb-2" style="color: var(--text-primary); font-size: 0.9rem;">
+                            <i class="bi bi-geo-alt me-1" style="color: var(--accent-primary);"></i> Location
+                        </label>
+                        <select class="form-select">
+                            <option selected>All Locations</option>
+                            <option>New York, USA</option>
+                            <option>London, UK</option>
+                            <option>Berlin, Germany</option>
+                            <option>Remote</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-2 col-md-6">
+                        <label class="form-label fw-semibold mb-2" style="color: var(--text-primary); font-size: 0.9rem;">
+                            <i class="bi bi-building me-1" style="color: var(--accent-primary);"></i> Category
+                        </label>
+                        <select class="form-select">
+                            <option selected>All Categories</option>
+                            <option>Technology</option>
+                            <option>Design</option>
+                            <option>Marketing</option>
+                            <option>Finance</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <button class="btn-search">
+                            <i class="bi bi-search"></i> Search Jobs
+                        </button>
+                    </div>
+                </div>
+                <div class="search-tags">
+                    <span class="search-tag"><i class="bi bi-hash me-1"></i>Remote</span>
+                    <span class="search-tag"><i class="bi bi-hash me-1"></i>Full-time</span>
+                    <span class="search-tag"><i class="bi bi-hash me-1"></i>Part-time</span>
+                    <span class="search-tag"><i class="bi bi-hash me-1"></i>Freelance</span>
+                    <span class="search-tag"><i class="bi bi-hash me-1"></i>Internship</span>
+                    <span class="search-tag"><i class="bi bi-hash me-1"></i>Senior</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section" id="features">
+        <div class="container">
+            <div class="text-center reveal">
+                <div class="section-label">
+                    <i class="bi bi-stars"></i> Why Choose Us
+                </div>
+                <h2 class="section-title">Everything You Need to<br><span class="gradient-text">Land Your Dream Job</span></h2>
+                <p class="section-subtitle">Our platform provides powerful tools and resources to help you find the perfect career match effortlessly.</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-3 col-md-6 reveal">
+                    <div class="feature-card">
+                        <div class="feature-icon icon-1">
+                            <i class="bi bi-lightning-charge-fill"></i>
+                        </div>
+                        <h5>Quick Apply</h5>
+                        <p>Apply to multiple positions with just one click. Our streamlined process saves you time and effort.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 reveal">
+                    <div class="feature-card">
+                        <div class="feature-icon icon-2">
+                            <i class="bi bi-shield-check"></i>
+                        </div>
+                        <h5>Verified Employers</h5>
+                        <p>Every company on our platform is thoroughly vetted to ensure legitimate and quality opportunities.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 reveal">
+                    <div class="feature-card">
+                        <div class="feature-icon icon-3">
+                            <i class="bi bi-graph-up-arrow"></i>
+                        </div>
+                        <h5>Smart Matching</h5>
+                        <p>AI-powered algorithms match your skills and preferences with the most relevant job openings.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 reveal">
+                    <div class="feature-card">
+                        <div class="feature-icon icon-4">
+                            <i class="bi bi-chat-dots-fill"></i>
+                        </div>
+                        <h5>Direct Messaging</h5>
+                        <p>Connect directly with hiring managers and get real-time updates on your applications.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-section" id="how">
+        <div class="container">
+            <div class="text-center reveal">
+                <div class="section-label">
+                    <i class="bi bi-gear-fill"></i> How It Works
+                </div>
+                <h2 class="section-title">Get Hired in <span class="gradient-text">3 Simple Steps</span></h2>
+                <p class="section-subtitle">Our intuitive process makes finding your next job easier than ever.</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-4 reveal">
+                    <div class="step-card">
+                        <div class="step-number">1</div>
+                        <h5>Create Your Profile</h5>
+                        <p>Sign up and build a professional profile highlighting your skills, experience, and career goals.</p>
+                        <div class="step-connector d-none d-md-block"></div>
+                    </div>
+                </div>
+                <div class="col-md-4 reveal">
+                    <div class="step-card">
+                        <div class="step-number">2</div>
+                        <h5>Search & Apply</h5>
+                        <p>Browse thousands of job listings, filter by your preferences, and apply with a single click.</p>
+                        <div class="step-connector d-none d-md-block"></div>
+                    </div>
+                </div>
+                <div class="col-md-4 reveal">
+                    <div class="step-card">
+                        <div class="step-number">3</div>
+                        <h5>Get Hired!</h5>
+                        <p>Receive offers, negotiate terms, and start your exciting new career journey with confidence.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="categories-section" id="categories">
+        <div class="container">
+            <div class="text-center reveal">
+                <div class="section-label">
+                    <i class="bi bi-grid-fill"></i> Categories
+                </div>
+                <h2 class="section-title">Explore by <span class="gradient-text">Industry</span></h2>
+                <p class="section-subtitle">Find opportunities across all major industries and sectors worldwide.</p>
+            </div>
+            <div class="row g-3">
+                <div class="col-lg-4 col-md-6 reveal">
+                    <a href="#" class="category-card">
+                        <div class="category-icon" style="background: rgba(108, 92, 231, 0.1); color: #6c5ce7;">
+                            <i class="bi bi-code-slash"></i>
+                        </div>
+                        <div class="category-info">
+                            <h6>Technology & IT</h6>
+                            <span>8,450 open positions</span>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-4 col-md-6 reveal">
+                    <a href="#" class="category-card">
+                        <div class="category-icon" style="background: rgba(0, 184, 148, 0.1); color: #00b894;">
+                            <i class="bi bi-palette-fill"></i>
+                        </div>
+                        <div class="category-info">
+                            <h6>Design & Creative</h6>
+                            <span>3,210 open positions</span>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-4 col-md-6 reveal">
+                    <a href="#" class="category-card">
+                        <div class="category-icon" style="background: rgba(253, 203, 110, 0.15); color: #e17055;">
+                            <i class="bi bi-megaphone-fill"></i>
+                        </div>
+                        <div class="category-info">
+                            <h6>Marketing & Sales</h6>
+                            <span>5,670 open positions</span>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-4 col-md-6 reveal">
+                    <a href="#" class="category-card">
+                        <div class="category-icon" style="background: rgba(116, 185, 255, 0.1); color: #74b9ff;">
+                            <i class="bi bi-cash-stack"></i>
+                        </div>
+                        <div class="category-info">
+                            <h6>Finance & Banking</h6>
+                            <span>4,120 open positions</span>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-4 col-md-6 reveal">
+                    <a href="#" class="category-card">
+                        <div class="category-icon" style="background: rgba(255, 118, 117, 0.1); color: #ff7675;">
+                            <i class="bi bi-heart-pulse-fill"></i>
+                        </div>
+                        <div class="category-info">
+                            <h6>Healthcare</h6>
+                            <span>6,340 open positions</span>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-4 col-md-6 reveal">
+                    <a href="#" class="category-card">
+                        <div class="category-icon" style="background: rgba(162, 155, 254, 0.1); color: #a29bfe;">
+                            <i class="bi bi-mortarboard-fill"></i>
+                        </div>
+                        <div class="category-info">
+                            <h6>Education</h6>
+                            <span>2,890 open positions</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section" id="contact">
+        <div class="container">
+            <div class="cta-card reveal">
+                <div class="row align-items-center">
+                    <div class="col-lg-7">
+                        <h2>Ready to Start Your Journey?</h2>
+                        <p>Join thousands of professionals who found their dream careers through JobPortal. Register today and take the first step.</p>
+                        <div class="d-flex gap-3 flex-wrap">
+                            <a href="/register" class="btn-cta">
+                                <i class="bi bi-person-plus-fill"></i> Create Free Account
+                            </a>
+                            <a href="/login" class="btn-cta" style="background: transparent; border: 2px solid rgba(255,255,255,0.4); color: #fff;">
+                                <i class="bi bi-box-arrow-in-right"></i> Sign In
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-5 text-center d-none d-lg-block">
+                        <div style="position: relative; z-index: 1;">
+                            <div style="font-size: 5rem; color: rgba(255,255,255,0.2);">
+                                <i class="bi bi-rocket-takeoff-fill"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="footer-brand">
+                        <i class="bi bi-briefcase-fill"></i> JobPortal
+                    </div>
+                    <p class="footer-desc">Connecting talented professionals with leading employers worldwide. Your career journey starts here.</p>
+                    <div class="footer-socials">
+                        <a href="#" class="footer-social-link"><i class="bi bi-twitter-x"></i></a>
+                        <a href="#" class="footer-social-link"><i class="bi bi-linkedin"></i></a>
+                        <a href="#" class="footer-social-link"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="footer-social-link"><i class="bi bi-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <h6>For Job Seekers</h6>
+                    <ul class="footer-links">
+                        <li><a href="#">Browse Jobs</a></li>
+                        <li><a href="#">Career Advice</a></li>
+                        <li><a href="#">Resume Builder</a></li>
+                        <li><a href="#">Salary Guide</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <h6>For Employers</h6>
+                    <ul class="footer-links">
+                        <li><a href="#">Post a Job</a></li>
+                        <li><a href="#">Browse Candidates</a></li>
+                        <li><a href="#">Pricing Plans</a></li>
+                        <li><a href="#">Recruitment</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <h6>Company</h6>
+                    <ul class="footer-links">
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Press</a></li>
+                        <li><a href="#">Careers</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <h6>Support</h6>
+                    <ul class="footer-links">
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">FAQs</a></li>
+                        <li><a href="#">Feedback</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 JobPortal. All rights reserved.</p>
+                <div class="footer-bottom-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top -->
+    <button class="scroll-top" id="scrollTop">
+        <i class="bi bi-arrow-up"></i>
+    </button>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // ===== PRELOADER =====
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('preloader').classList.add('hidden');
+            }, 600);
+        });
+
+        // ===== THEME TOGGLE =====
+        const html = document.documentElement;
+        const themeToggle = document.getElementById('themeToggle');
+        const toggleIcon = document.getElementById('toggleIcon');
+        const toggleLabel = document.getElementById('toggleLabel');
+
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        html.setAttribute('data-theme', savedTheme);
+        updateToggleUI(savedTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const current = html.getAttribute('data-theme');
+            const next = current === 'light' ? 'dark' : 'light';
+            html.setAttribute('data-theme', next);
+            localStorage.setItem('theme', next);
+            updateToggleUI(next);
+        });
+
+        function updateToggleUI(theme) {
+            if (theme === 'dark') {
+                toggleIcon.className = 'bi bi-moon-fill';
+                toggleIcon.style.color = '#a29bfe';
+                toggleLabel.textContent = 'Dark';
+            } else {
+                toggleIcon.className = 'bi bi-sun-fill';
+                toggleIcon.style.color = '#fdcb6e';
+                toggleLabel.textContent = 'Light';
+            }
+        }
+
+        // ===== NAVBAR SCROLL =====
+        const navbar = document.getElementById('mainNav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // ===== SCROLL REVEAL =====
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('visible');
+                    }, index * 100);
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // ===== COUNTER ANIMATION =====
+        const counters = document.querySelectorAll('[data-count]');
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const el = entry.target;
+                    const target = parseInt(el.getAttribute('data-count'));
+                    animateCounter(el, target);
+                    counterObserver.unobserve(el);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        counters.forEach(c => counterObserver.observe(c));
+
+        function animateCounter(el, target) {
+            let current = 0;
+            const duration = 2000;
+            const step = target / (duration / 16);
+            const suffix = el.closest('.hero-stat').querySelector('.hero-stat-label').textContent.includes('%') ? '' : '+';
+
+            function update() {
+                current += step;
+                if (current >= target) {
+                    current = target;
+                    el.textContent = formatNumber(target) + suffix;
+                    return;
+                }
+                el.textContent = formatNumber(Math.floor(current)) + suffix;
+                requestAnimationFrame(update);
+            }
+            update();
+        }
+
+        function formatNumber(num) {
+            if (num >= 1000) {
+                return (num / 1000).toFixed(num % 1000 === 0 ? 0 : 1) + 'K';
+            }
+            return num.toString();
+        }
+
+        // ===== SCROLL TO TOP =====
+        const scrollTopBtn = document.getElementById('scrollTop');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 500) {
+                scrollTopBtn.classList.add('visible');
+            } else {
+                scrollTopBtn.classList.remove('visible');
+            }
+        });
+
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // ===== SMOOTH SCROLL FOR NAV LINKS =====
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href !== '#') {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        const offset = 80;
+                        const top = target.getBoundingClientRect().top + window.scrollY - offset;
+                        window.scrollTo({ top, behavior: 'smooth' });
+                    }
+                }
+                // Close mobile nav
+                const navCollapse = document.getElementById('navbarNav');
+                if (navCollapse.classList.contains('show')) {
+                    bootstrap.Collapse.getInstance(navCollapse)?.hide();
+                }
+            });
+        });
+
+        // ===== SEARCH TAGS CLICK =====
+        document.querySelectorAll('.search-tag').forEach(tag => {
+            tag.addEventListener('click', function() {
+                this.classList.toggle('active');
+                if (this.classList.contains('active')) {
+                    this.style.background = 'var(--badge-bg)';
+                    this.style.color = 'var(--accent-primary)';
+                    this.style.borderColor = 'var(--accent-primary)';
+                } else {
+                    this.style.background = '';
+                    this.style.color = '';
+                    this.style.borderColor = '';
+                }
+            });
+        });
+
+        // ===== ACTIVE NAV LINK ON SCROLL =====
+        const sections = document.querySelectorAll('section[id]');
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                if (window.scrollY >= sectionTop) {
+                    current = section.getAttribute('id');
+                }
+            });
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
+
