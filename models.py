@@ -74,3 +74,13 @@ class Resume(db.Model):
     worker_id = db.Column(db.Integer, db.ForeignKey('workers.id'), nullable=False)
 
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+class Application(db.Model):
+    __tablename__ = 'applications'
+
+    id = db.Column(db.Integer, primary_key=True)
+
+    worker_id = db.Column(db.Integer, db.ForeignKey('workers.id'), nullable=False)
+    job_id = db.Column(db.Integer, db.ForeignKey('jobs.id'), nullable=False)
+
+    applied_at = db.Column(db.DateTime, default=datetime.utcnow)
