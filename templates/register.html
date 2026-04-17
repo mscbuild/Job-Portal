@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="col-md-4 mx-auto">
+
+    <h3 class="mb-3">Register</h3>
+
+    <form method="POST" class="card p-3 shadow-sm">
+        {{ form.hidden_tag() }}
+
+        {{ form.username(class="form-control mb-2", placeholder="Username") }}
+        {{ form.password(class="form-control mb-2", placeholder="Password") }}
+        {{ form.role(class="form-control mb-2") }}
+
+        <button class="btn btn-success w-100">Create account</button>
+    </form>
+
+</div>
+{% endblock %}
