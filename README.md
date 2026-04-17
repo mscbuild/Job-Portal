@@ -10,64 +10,31 @@
 ![](https://img.shields.io/website?url=https%3A%2F%2Fgithub.com%2Fmscbuild)
 
 
-A full-fledged system in Python/Flask with basic functionality:
+A full-fledged mini-system in Python/Flask with basic functionality:
 
-## ✨ Features
+✅ Registration and login for employees and employers
 
-- 🔐 Authentication (Flask-Login)
-- 🛡 CSRF protection (Flask-WTF)
-- 💼 Job posting (employers)
-- 📄 Job applications (workers)
-- 🔍 Search + filters (salary, category, city)
-- 📊 Sorting (salary, date)
-- ⭐ Favorites
-- 📥 Resume upload + download
-- 🔔 Notifications system
-- 🎨 Bootstrap UI
-- 🧪 Unit tests (pytest)
+✅ Employers can post vacancies
 
-## 🧠 Tech Stack
-
-- Flask
-- SQLite
-- SQLAlchemy
-- Flask-Login
-- Flask-WTF
-- Bootstrap 5
-
----
+✅ Employees can view vacancies and apply
 
 ## 📁 Project structure
 
 ~~~bash
-job-portal/
+job_portal/
 │
+├── resumes/  
 ├── app.py
-├── config.py
 ├── models.py
-├── forms.py
-├── extensions.py
-│
-├── requirements.txt
-├── README.md
-├── run.py
-│
-├── resumes/
-├── tests/
-│   ├── test_auth.py
-│   ├── test_jobs.py
-│   └── test_applications.py
-│
-└── templates/
-    ├── base.html
-    ├── index.html
-    ├── login.html
-    ├── register.html
-    ├── dashboard_worker.html
-    ├── dashboard_employer.html
-    ├── upload_resume.html
-    ├── applications.html
-    └── notifications.html
+├── database.db  ←created automatically
+├── templates/
+│   ├── index.html
+│   ├── login.html
+│   ├── register.html
+│   ├── dashboard_employer.html
+│   ├── dashboard_worker.html
+├── static/
+│   └── style.css
 ~~~
 
 ## 🔧 1. app.py
@@ -77,39 +44,13 @@ job-portal/
 ## 🖼️ HTML-templates
 
 ## ▶️ Installation and launch
----
+~~~bash
+# Install dependencies
+pip install flask flask_sqlalchemy werkzeug
 
-## 📦 Installation
-
-```bash
-git clone https://github.com/mscbuild/Job-Portal
-cd Job-Portal
-
-python -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\activate
-
-pip install -r requirements.txt
-~~~
-
-## ▶ Run
-```bash
+# Start the server
 python app.py
-```
-## Open:
-```bash
-http://127.0.0.1:5000
-```
-## 🧪 Tests
-```bash
-pytest
-```
-## 🔐 Security
-
-- CSRF protection enabled
-- Password hashing (Werkzeug)
-- File validation for uploads
-- XSS protection via Bleach
-
+~~~
 # 📄 License
 
 > MIT License
