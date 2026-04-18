@@ -1,3 +1,7 @@
+[repo]: https://github.com/mscbuild/Job-Portal/
+[demo]: https://github.com/mscbuild/Job-Portal/ 
+
+
 # Job-Portal
  ![](https://komarev.com/ghpvc/?username=mscbuild) 
  [![Author](https://img.shields.io/badge/Author-Yuri%20Dev-blue.svg)](http://mscbuild.github.io/)
@@ -20,6 +24,8 @@ A full-fledged mini-system in Python/Flask with basic functionality:
 
 ## Screenshot
 <img width="1344" height="622" alt="Job portal" src="https://github.com/user-attachments/assets/94a27e3d-52f3-461c-bfff-6b0c0b4963a1" />
+
+#### [ View Live Preview][demo]
 
 
 ## 📁 Project structure
@@ -55,6 +61,11 @@ pip install flask flask_sqlalchemy werkzeug
 # Start the server
 python app.py
 ~~~
+
+## Running on 
+```bash
+http://127.0.0.1:5000
+````
 # 📄 License
 
 > MIT License
